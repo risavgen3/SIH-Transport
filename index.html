@@ -122,20 +122,20 @@
 
         #map {
             height: 500px;
-            background-color: var(--card-bg);
+            background-color: #222; /* Dark bg for map loading */
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            z-index: 1; /* Ensure map is above other elements in its container */
+            z-index: 1; 
         }
         
         #locate-btn {
             position: absolute;
             top: 10px;
             right: 10px;
-            z-index: 401; /* Above map tiles, below zoom control */
-            background-color: var(--card-bg);
-            color: var(--primary-color);
-            border: 1px solid var(--border-color);
+            z-index: 401; 
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ccc;
             padding: 8px 10px;
             border-radius: 4px;
             cursor: pointer;
@@ -144,8 +144,7 @@
         }
         
         #locate-btn:hover {
-            background-color: var(--primary-color);
-            color: var(--bg-color);
+            background-color: #f4f4f4;
         }
 
         @keyframes pulse {
@@ -155,13 +154,9 @@
         }
         
         .user-location-marker .pulse {
-            stroke: var(--secondary-color);
-            stroke-width: 2;
+            stroke: #0078FF;
+            stroke-width: 3;
             animation: pulse 2s infinite;
-        }
-        
-        .leaflet-tile-pane {
-            filter: invert(1) hue-rotate(180deg) brightness(0.8) contrast(1.2);
         }
         
         .bus-marker-icon {
@@ -179,13 +174,11 @@
             display: flex;
             flex-direction: column;
         }
-        
-        #fleet-status-panel {
-             flex-grow: 1;
-             overflow-y: auto;
-             margin-bottom: 1rem;
-        }
 
+        #info-panel-content {
+            overflow-y: auto;
+        }
+        
         .info-panel h3 {
             margin-top: 0;
             color: var(--primary-color);
@@ -195,172 +188,48 @@
 
         .bus-info {
             margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--border-color);
+            transition: background-color 0.3s ease, border-left-color 0.3s ease;
+            cursor: pointer;
         }
-        .bus-info:last-child {
-            border-bottom: none;
+        .bus-info:hover {
+            background-color: #2a2f37;
+            border-left-color: var(--primary-color);
         }
-
+        
         .bus-info h4 {
             color: white;
             margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .bus-info h4 small {
+            font-weight: normal;
+            color: #aaa;
+            font-size: 0.8rem;
         }
 
         .bus-info p {
             margin: 0.2rem 0;
             font-size: 0.9rem;
         }
-
+        
         .leaflet-popup-content-wrapper, .leaflet-popup-tip {
             background: var(--card-bg);
             color: var(--text-color);
-            box-shadow: 0 3px 14px rgba(0,0,0,0.4);
             border: 1px solid var(--border-color);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
         .leaflet-popup-content h4 {
-            color: var(--primary-color);
+             color: var(--primary-color);
         }
+         .leaflet-popup-content h4 small {
+            color: #aaa;
+         }
 
-        .leaflet-control-zoom-in, .leaflet-control-zoom-out {
-            background-color: var(--card-bg) !important;
-            border: 1px solid var(--border-color) !important;
-            color: var(--primary-color) !important;
-        }
-        .leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover {
-            background-color: #30363d !important;
-        }
-        
-        /* --- Gemini AI Features Styles --- */
-        #ai-controls {
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-        #ai-controls h4 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        #destination-input {
-            width: 100%;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 0.5rem;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            box-sizing: border-box;
-        }
-        .ai-button {
-            width: 100%;
-            background-color: var(--secondary-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 0.7rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'Source Code Pro', monospace;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .ai-button:hover {
-            opacity: 0.9;
-            box-shadow: 0 0 10px var(--secondary-color);
-        }
-        .ai-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* --- AI Modal --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .modal-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .modal-content {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        .modal-overlay.show .modal-content {
-            transform: scale(1);
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-        }
-        .modal-header h3 {
-            margin: 0;
-            color: var(--primary-color);
-        }
-        .close-button {
-            font-size: 2rem;
-            color: var(--text-color);
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
-        #ai-response-content {
-            white-space: pre-wrap; /* Preserves formatting */
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid var(--secondary-color);
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        .modal-spinner {
-             display: flex;
-             justify-content: center;
-             align-items: center;
-             height: 150px;
-        }
-        .modal-spinner .spinner {
-            width: 50px;
-            height: 50px;
-        }
-
-        /* --- End AI Styles --- */
+        /* --- End Simulation Styles --- */
 
         .hero {
             height: 90vh;
@@ -375,8 +244,19 @@
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             margin-bottom: 1rem;
             color: white;
-            text-shadow: 0 0 10px var(--primary-color);
+            text-shadow: 0 0 15px var(--primary-color);
+            animation: text-glow 2s ease-in-out infinite alternate;
         }
+
+        @keyframes text-glow {
+            from {
+                text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+            }
+            to {
+                text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--secondary-color);
+            }
+        }
+
 
         .hero p {
             font-size: clamp(1rem, 2.5vw, 1.2rem);
@@ -418,6 +298,13 @@
         .card h3 {
             color: var(--primary-color);
             margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card .icon {
+            color: var(--primary-color);
         }
 
         #architecture img, #architecture svg {
@@ -443,6 +330,11 @@
             text-align: center;
             width: 100%;
             max-width: 280px;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
         }
         
         .team-member img {
@@ -451,6 +343,12 @@
             border-radius: 50%;
             border: 3px solid var(--primary-color);
             margin-bottom: 1rem;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        
+        .team-member:hover img {
+            filter: grayscale(0%);
         }
 
         .team-member h4 {
@@ -529,19 +427,6 @@
     <canvas id="matrix-bg"></canvas>
     <div id="notification-toast"></div>
     
-    <!-- AI Response Modal -->
-    <div class="modal-overlay" id="ai-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="ai-modal-title">AI Assistant</h3>
-                <button class="close-button" id="close-modal-btn">&times;</button>
-            </div>
-            <div id="ai-response-container">
-                <div id="ai-response-content"></div>
-            </div>
-        </div>
-    </div>
-
     <header>
         <nav class="container">
             <a href="#" class="logo">&lt;Strikers GX /&gt;</a>
@@ -549,7 +434,6 @@
                 <li><a href="#problem">Problem</a></li>
                 <li><a href="#solution">Solution</a></li>
                 <li><a href="#simulation">Simulation</a></li>
-                <li><a href="#ai-features">AI Features</a></li>
                 <li><a href="#architecture">Architecture</a></li>
                 <li><a href="#team">Team</a></li>
             </ul>
@@ -575,15 +459,24 @@
                 <h2 class="section-title">The Problem</h2>
                 <div class="grid">
                     <div class="card">
-                        <h3>Unpredictable Wait Times</h3>
+                        <h3>
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            Unpredictable Wait Times
+                        </h3>
                         <p>Passengers in tier-2 and tier-3 cities face long, frustrating, and uncertain waits for public transport, disrupting their daily schedules.</p>
                     </div>
                     <div class="card">
-                        <h3>Overcrowding & Safety</h3>
+                        <h3>
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Overcrowding & Safety
+                        </h3>
                         <p>Inefficient vehicle distribution leads to severe overcrowding, posing safety risks and creating an uncomfortable travel experience for commuters.</p>
                     </div>
                     <div class="card">
-                        <h3>Fuel Wastage & Pollution</h3>
+                         <h3>
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                            Fuel Wastage & Pollution
+                         </h3>
                         <p>Non-optimized routes, traffic congestion, and excessive idling result in significant fuel waste and contribute to urban air pollution.</p>
                     </div>
                 </div>
@@ -596,15 +489,24 @@
                 <h2 class="section-title">Our Solution</h2>
                 <div class="grid">
                      <div class="card">
-                        <h3>Low-Cost IoT Kit</h3>
+                        <h3>
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                            Low-Cost IoT Kit
+                        </h3>
                         <p>A plug-and-play hardware module (ESP32, GPS, GSM) installed on buses to transmit live location data, designed to work reliably even in low-bandwidth areas.</p>
                     </div>
                     <div class="card">
-                        <h3>Real-Time Passenger Counting</h3>
+                         <h3>
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Real-Time Passenger Counting
+                         </h3>
                         <p>An innovative ESP32-CAM integration provides live passenger density data, allowing for proactive crowd management and better vehicle deployment.</p>
                     </div>
                     <div class="card">
-                        <h3>User & Admin Apps</h3>
+                        <h3>
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-3.4-4-6.2-4.3-.5-.1-1-.1-1.4.1l-1.9.4-4.2-4.2c-1-1-2.6-1-3.5 0l-.8.8c-1 1-1 2.6 0 3.5L8.4 15c.1.1.2.2.4.2l1.9-.4c.5-.1.9-.1 1.4-.1 2.8.3 5.6 1.9 6.2 4.3.3 1.4 0 2.7-.7 3.9l-1.8 2.5.8.8c1 1 2.6 1 3.5 0l4.2-4.2.8-.8c1-1 .9-2.6 0-3.5l-2.5-1.8z"></path><path d="m3.5 14.5.8.8c1 1 2.6 1 3.5 0l4.2-4.2.8-.8c1-1 .9-2.6 0-3.5l-2.5-1.8a2.5 2.5 0 0 0-3.5 0l-.8.8-4.2 4.2a2.5 2.5 0 0 0 0 3.5l1.8 2.5Z"></path></svg>
+                            User & Admin Apps
+                        </h3>
                         <p>A lightweight commuter app for real-time tracking and a powerful web dashboard for authorities to monitor the fleet and optimize routes with data-driven insights.</p>
                     </div>
                 </div>
@@ -621,48 +523,14 @@
                         <button id="locate-btn">Locate Me</button>
                     </div>
                     <div class="info-panel" id="infoPanel">
-                        <div id="fleet-status-panel">
-                           <h3>Fleet Status</h3>
+                       <h3>Fleet Status</h3>
+                       <div id="info-panel-content">
                            <!-- Bus info will be dynamically inserted here -->
-                        </div>
-                        <div id="ai-controls">
-                            <h4>AI Travel Assistant</h4>
-                            <input type="text" id="destination-input" placeholder="Enter destination (e.g., Park Street)">
-                            <button class="ai-button" id="plan-route-btn">
-                                <!-- Spinner will be added here -->
-                                <span>Plan My Route</span>
-                            </button>
-                            <button class="ai-button" id="summarize-btn">
-                                <!-- Spinner will be added here -->
-                                <span>Generate Fleet Summary</span>
-                            </button>
-                        </div>
+                       </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <!-- AI Features Section -->
-        <section id="ai-features" class="section">
-             <div class="container">
-                <h2 class="section-title">Powered by Gemini AI</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h3>Intelligent Route Planning</h3>
-                        <p>Enter your destination, and our AI assistant will analyze real-time bus locations, routes, and passenger loads to suggest the most efficient way to get there.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Dynamic Fleet Summaries</h3>
-                        <p>With one click, generate an operational summary of the entire bus fleet. The AI identifies key insights, such as which routes are busiest or where buses are clustered.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Smart Transit Assistant</h3>
-                        <p>By integrating Google's powerful Gemini model, our application transforms from a simple map into a smart, conversational transit tool for commuters and operators.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
 
         <!-- Architecture Section -->
         <section id="architecture" class="section">
@@ -677,70 +545,72 @@
                     </defs>
 
                     <!-- Titles -->
-                    <text x="150" y="50" font-size="22" fill="#00ff99" text-anchor="middle">On-Bus IoT System</text>
-                    <text x="600" y="50" font-size="22" fill="#00ff99" text-anchor="middle">Cloud Platform</text>
-                    <text x="1050" y="50" font-size="22" fill="#00ff99" text-anchor="middle">End-User Applications</text>
+                    <text x="175" y="40" font-size="22" fill="#00ff99" text-anchor="middle">On-Bus IoT System</text>
+                    <text x="600" y="40" font-size="22" fill="#00ff99" text-anchor="middle">Cloud Platform</text>
+                    <text x="1025" y="40" font-size="22" fill="#00ff99" text-anchor="middle">End-User Applications</text>
 
                     <!-- Column 1: IoT System -->
-                    <rect x="50" y="80" width="200" height="480" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
+                    <rect x="50" y="70" width="250" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
                     
                     <!-- IoT Components -->
-                    <g transform="translate(70, 120)">
-                        <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20Z" fill="#00ff99"/>
-                        <text x="30" y="15" fill="#c9d1d9" font-size="16">ESP32 Microcontroller</text>
-                    </g>
-                    <g transform="translate(70, 180)">
-                        <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22S19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5Z" fill="#00ff99"/>
-                        <text x="30" y="15" fill="#c9d1d9" font-size="16">GPS Module</text>
-                    </g>
-                     <g transform="translate(70, 240)">
-                        <path d="M17 1.01L7 1C5.9 1 5 1.9 5 3V21C5 22.1 5.9 23 7 23H17C18.1 23 19 22.1 19 21V3C19 1.9 18.1 1.01 17 1.01ZM17 19H7V5H17V19Z" fill="#00ff99"/>
-                        <text x="30" y="15" fill="#c9d1d9" font-size="16">GSM/GPRS Module</text>
-                    </g>
-                    <g transform="translate(70, 300)">
-                         <path d="M9.4 6.6C9.8 6.2 10.4 6 11 6C12.7 6 14 7.3 14 9S12.7 12 11 12C10.4 12 9.8 11.8 9.4 11.4L9 11.7V14H7V6H9L9.4 6.6ZM11 10C11.6 10 12 9.6 12 9S11.6 8 11 8 10 8.4 10 9 10.4 10 11 10ZM21 4H3C1.9 4 1 4.9 1 6V18C1 19.1 1.9 20 3 20H21C22.1 20 23 19.1 23 18V6C23 4.9 22.1 4 21 4ZM21 18H3V6H21V18Z" fill="#00ff99"/>
-                        <text x="30" y="15" fill="#c9d1d9" font-size="16">ESP32-CAM Count</text>
-                    </g>
-
-                    <text x="150" y="540" font-size="18" fill="white" text-anchor="middle">Bus</text>
+                    <rect x="70" y="90" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="175" y="120" font-size="16" fill="white" text-anchor="middle">ESP32 Microcontroller</text>
+                    <text x="175" y="145" font-size="12" fill="#c9d1d9" text-anchor="middle">(Central Processor)</text>
                     
+                    <rect x="70" y="190" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="175" y="220" font-size="16" fill="white" text-anchor="middle">Neo-06 Module</text>
+                    <text x="175" y="245" font-size="12" fill="#c9d1d9" text-anchor="middle">(Location Tracking)</text>
+
+                    <rect x="70" y="290" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="175" y="320" font-size="16" fill="white" text-anchor="middle">GSM/GPRS Module</text>
+                    <text x="175" y="345" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Transmission)</text>
+
+                    <rect x="70" y="390" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="175" y="420" font-size="16" fill="white" text-anchor="middle">ESP32-CAM</text>
+                    <text x="175" y="445" font-size="12" fill="#c9d1d9" text-anchor="middle">(Passenger Density)</text>
+
+                    <text x="175" y="540" font-size="18" fill="white" text-anchor="middle">Bus Hardware Unit</text>
+
                     <!-- Column 2: Cloud -->
-                    <rect x="400" y="80" width="400" height="480" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                     <rect x="450" y="110" width="300" height="60" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="145" font-size="16" fill="#c9d1d9" text-anchor="middle">MQTT Broker</text>
-                    
-                    <rect x="450" y="200" width="300" height="100" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="235" font-size="16" fill="white" text-anchor="middle">Backend Server</text>
-                    <text x="600" y="265" font-size="14" fill="#c9d1d9" text-anchor="middle">(Node.js / Django)</text>
+                    <rect x="425" y="70" width="350" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
+                    <rect x="450" y="90" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="600" y="120" font-size="16" fill="white" text-anchor="middle">MQTT Broker</text>
+                    <text x="600" y="145" font-size="12" fill="#c9d1d9" text-anchor="middle">(Real-time Data Ingestion)</text>
 
-                    <rect x="450" y="330" width="300" height="60" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="365" font-size="16" fill="#c9d1d9" text-anchor="middle">API Layer (REST)</text>
+                    <rect x="450" y="190" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="600" y="220" font-size="16" fill="white" text-anchor="middle">Backend Server (Node.js)</text>
+                    <text x="600" y="245" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Processing & Logic)</text>
 
-                    <rect x="450" y="420" width="300" height="100" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="455" font-size="16" fill="white" text-anchor="middle">Database</text>
-                    <text x="600" y="485" font-size="14" fill="#c9d1d9" text-anchor="middle">(MongoDB / Firebase)</text>
+                    <rect x="450" y="290" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="600" y="320" font-size="16" fill="white" text-anchor="middle">API Layer (REST)</text>
+                    <text x="600" y="345" font-size="12" fill="#c9d1d9" text-anchor="middle">(Secure Data Access)</text>
+
+                    <rect x="450" y="390" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="600" y="420" font-size="16" fill="white" text-anchor="middle">Database (MongoDB)</text>
+                    <text x="600" y="445" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Storage & Retrieval)</text>
 
                     <!-- Column 3: Apps -->
-                    <rect x="950" y="80" width="200" height="140" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                    <text x="1050" y="125" font-size="16" fill="white" text-anchor="middle">Commuter App</text>
-                    <text x="1050" y="150" font-size="14" fill="#c9d1d9" text-anchor="middle">(React Native)</text>
+                    <rect x="850" y="70" width="250" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
+                    <rect x="875" y="90" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="975" y="130" font-size="16" fill="white" text-anchor="middle">Commuter App</text>
+                    <text x="975" y="155" font-size="12" fill="#c9d1d9" text-anchor="middle">(React Native)</text>
                     
-                    <rect x="950" y="240" width="200" height="140" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                    <text x="1050" y="285" font-size="16" fill="white" text-anchor="middle">Admin Dashboard</text>
-                    <text x="1050" y="310" font-size="14" fill="#c9d1d9" text-anchor="middle">(Next.js)</text>
+                    <rect x="875" y="240" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="975" y="280" font-size="16" fill="white" text-anchor="middle">Admin Dashboard</text>
+                    <text x="975" y="305" font-size="12" fill="#c9d1d9" text-anchor="middle">(Next.js)</text>
                     
-                    <rect x="950" y="400" width="200" height="140" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                    <text x="1050" y="445" font-size="16" fill="white" text-anchor="middle">Driver App</text>
-                     <text x="1050" y="470" font-size="14" fill="#c9d1d9" text-anchor="middle">(Mobile)</text>
+                    <rect x="875" y="390" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
+                    <text x="975" y="430" font-size="16" fill="white" text-anchor="middle">Driver App</text>
+                    <text x="975" y="455" font-size="12" fill="#c9d1d9" text-anchor="middle">(Mobile)</text>
                     
                     <!-- Arrows -->
-                    <line x1="260" y1="320" x2="390" y2="320" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                    <text x="325" y="310" font-size="14" fill="#00c3ff" text-anchor="middle">IoT Data Stream</text>
+                    <line x1="310" y1="320" x2="415" y2="320" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="362.5" y="310" font-size="12" fill="#00c3ff" text-anchor="middle">Encrypted Sensor Data</text>
+                    <text x="362.5" y="325" font-size="12" fill="#00c3ff" text-anchor="middle">(via MQTT)</text>
 
-                    <line x1="810" y1="150" x2="940" y2="150" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                     <line x1="810" y1="310" x2="940" y2="310" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                     <line x1="810" y1="470" x2="940" y2="470" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                    <text x="875" y="300" font-size="14" fill="#00c3ff" text-anchor="middle">API Calls</text>
+                    <line x1="785" y1="320" x2="840" y2="320" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="812.5" y="310" font-size="12" fill="#00c3ff" text-anchor="middle">Secure Data Retrieval</text>
+                    <text x="812.5" y="325" font-size="12" fill="#00c3ff" text-anchor="middle">(via REST API)</text>
                 </svg>
             </div>
         </section>
@@ -854,121 +724,102 @@
             }
 
             /* --- Live Map Simulation Logic --- */
-            const fleetStatusPanel = document.getElementById('fleet-status-panel');
+            const infoPanelContent = document.getElementById('info-panel-content');
             const locateBtn = document.getElementById('locate-btn');
             let userMarker = null;
-            let userLatLng = null;
+            let busMarkers = {}; // To store markers by busId
 
-            // 1. Initialize Map
-            const map = L.map('map').setView([22.5726, 88.3639], 13); // Centered on Kolkata
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            // --- Real Bus Data from CSV ---
+            const csvData = `busId,operator,routeNumber,routeName,busType,capacity,status,latitude,longitude,timestamp,speed,lastStartTime,routesPerDay,fareType
+WB-98-8360,Salt Lake Express,S30,Park Circus ↔ Barasat,Double-Decker,70,Running,22.555418,88.272488,2025-09-04T13:07:06,24.7,2025-09-10T02:43:59,6,AC
+WB-56-3057,Kolkata Tramways,S12,Esplanade ↔ Garia,Non-AC,60,Running,22.671507,88.40027,2025-09-04T19:33:53,56.5,2025-09-06T07:20:25,4,AC
+WB-89-3939,Jadavpur Bus Co.,AC20,Howrah ↔ Sector V,Double-Decker,70,Running,22.630455,88.314511,2025-09-06T04:34:45,41.6,2025-09-16T16:26:25,8,AC
+WB-50-9281,Salt Lake Express,DN16,Dumdum ↔ Newtown,AC,50,Off-road,22.545367,88.493215,2025-09-11T03:07:29,0,2025-09-17T09:42:07,5,Special
+WB-37-3788,Jadavpur Bus Co.,S18,Ultadanga ↔ Jadavpur,AC,50,Running,22.585121,88.491295,2025-09-05T01:54:19,25.4,2025-09-17T03:57:44,7,AC
+WB-55-4654,Howrah Urban Bus Services,S12,Esplanade ↔ Garia,Mini,40,Running,22.569438,88.484213,2025-09-08T18:18:23,33.1,2025-09-15T10:48:38,5,Normal
+WB-18-9333,Howrah Urban Bus Services,AC20,Howrah ↔ Sector V,Non-AC,60,Running,22.6917,88.44814,2025-09-13T10:24:47,18.5,2025-09-18T01:26:29,6,Special
+WB-71-7776,Howrah Urban Bus Services,AC20,Howrah ↔ Sector V,Low-Floor,80,Running,22.684959,88.257644,2025-09-13T10:24:47,18.5,2025-09-18T01:26:29,6,Special
+WB-77-2369,Jadavpur Bus Co.,S18,Ultadanga ↔ Jadavpur,Mini,50,Running,22.685195,88.385973,2025-09-15T07:21:25,52.6,2025-09-07T17:39:23,4,AC
+WB-27-3669,South Bengal STC,AC20,Howrah ↔ Sector V,AC,50,Running,22.634165,88.43292,2025-09-03T11:16:14,15.2,2025-09-05T15:45:10,3,Special
+WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-road,22.516746,88.434339,2025-09-05T01:54:19,0,2025-09-17T03:57:44,7,AC`;
+
+            const busData = csvData.trim().split('\n').slice(1).map(row => {
+                const [busId, operator, routeNumber, routeName, busType, capacity, status, latitude, longitude, timestamp, speed] = row.split(',');
+                return {
+                    id: busId,
+                    operator,
+                    routeNumber,
+                    routeName,
+                    busType,
+                    capacity: parseInt(capacity),
+                    status,
+                    lat: parseFloat(latitude),
+                    lng: parseFloat(longitude),
+                    speed: parseFloat(speed)
+                };
+            });
+
+            const avgLat = busData.reduce((acc, bus) => acc + bus.lat, 0) / busData.length;
+            const avgLng = busData.reduce((acc, bus) => acc + bus.lng, 0) / busData.length;
+            
+            const map = L.map('map').setView([avgLat, avgLng], 12);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             }).addTo(map);
 
-            // 2. Define Routes with real Lat/Lng coordinates
-            const routes = [
-                { name: "Howrah to Esplanade", color: "#00ff99", path: [[22.5843, 88.3435], [22.5700, 88.3480], [22.5685, 88.3510], [22.5663, 88.3522]] },
-                { name: "Gariahat to Park St.", color: "#ff6347", path: [[22.5113, 88.3683], [22.5280, 88.3610], [22.5448, 88.3526], [22.5510, 88.3520]] },
-                { name: "Salt Lake Loop", color: "#f0e68c", path: [[22.5855, 88.4111], [22.5708, 88.4285], [22.6000, 88.4050], [22.5855, 88.4111]] }
-            ];
-
-            let buses = [
-                { id: "GX-01", routeIndex: 0, segment: 0, progress: 0, speed: 0.0001, passengers: 25, capacity: 50, marker: null, isDwelling: false, dwellTime: 0, bearing: 0 },
-                { id: "GX-02", routeIndex: 1, segment: 0, progress: 0.3, speed: 0.00015, passengers: 40, capacity: 50, marker: null, isDwelling: false, dwellTime: 0, bearing: 0 },
-                { id: "GX-03", routeIndex: 2, segment: 0, progress: 0, speed: 0.00012, passengers: 15, capacity: 40, marker: null, isDwelling: false, dwellTime: 0, bearing: 0 },
-            ];
-            
-            function calculateBearing(lat1, lon1, lat2, lon2) {
-                const y = Math.sin(lon2 - lon1) * Math.cos(lat2);
-                const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
-                return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
-            }
 
             function createElements() {
-                routes.forEach(route => {
-                    L.polyline(route.path, { color: route.color, dashArray: '5, 10' }).addTo(map);
-                    route.path.forEach(stop => L.circleMarker(stop, { radius: 4, fillColor: route.color, color: "#000", weight: 1, opacity: 1, fillOpacity: 0.8 }).addTo(map));
-                });
+                let infoHTML = '';
 
-                buses.forEach(bus => {
-                    const route = routes[bus.routeIndex];
-                    const busSVG = `<svg viewBox="0 0 24 24" fill="${route.color}" style="transform: rotate(${bus.bearing}deg);" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>`;
-                    const busIcon = L.divIcon({ className: 'bus-marker-icon', html: busSVG, iconSize: [24, 24] });
-                    bus.marker = L.marker(route.path[0], { icon: busIcon }).addTo(map);
-                    bus.marker.bindPopup(`<h4>Loading...</h4>`);
+                busData.forEach(bus => {
+                    const busStatusColor = bus.status === 'Running' ? 'var(--primary-color)' : '#ff6347';
+                    const busIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${busStatusColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>`;
+                    
+                    const busIcon = L.divIcon({
+                        className: 'bus-marker-icon',
+                        html: busIconSVG,
+                        iconSize: [24, 24],
+                    });
+                    const marker = L.marker([bus.lat, bus.lng], { icon: busIcon }).addTo(map);
+                    
+                    const popupContent = `
+                        <h4>${bus.id} <small>(${bus.operator})</small></h4>
+                        <p><strong>Route:</strong> ${bus.routeName} (${bus.routeNumber})</p>
+                        <p><strong>Status:</strong> ${bus.status}</p>
+                        <p><strong>Speed:</strong> ${bus.speed} km/h</p>
+                    `;
+                    marker.bindPopup(popupContent);
+                    busMarkers[bus.id] = marker;
+
+                    const busInfoElement = document.createElement('div');
+                    busInfoElement.className = 'bus-info';
+                    busInfoElement.dataset.busId = bus.id;
+                    busInfoElement.innerHTML = `
+                        <h4>${bus.id} <small>(${bus.routeNumber})</small></h4>
+                        <p>${bus.routeName}</p>
+                        <p>Status: <span style="color: ${busStatusColor}">${bus.status}</span></p>
+                    `;
+                    
+                    busInfoElement.addEventListener('click', () => {
+                        const targetBus = busMarkers[bus.id];
+                        if (targetBus) {
+                            map.flyTo(targetBus.getLatLng(), 15);
+                            targetBus.openPopup();
+                        }
+                    });
+
+                    infoPanelContent.appendChild(busInfoElement);
                 });
             }
             
-            function getStatus(bus) {
-                const occupancy = (bus.passengers / bus.capacity) * 100;
-                if (bus.isDwelling) return { text: 'At Stop', color: '#00c3ff'};
-                if (occupancy > 80) return { text: 'Crowded', color: '#ff6347'};
-                return { text: 'En Route', color: '#00ff99'};
-            }
-
-            function updateInfoPanel() {
-                let infoHTML = '<h3>Fleet Status</h3>';
-                buses.forEach(bus => {
-                    const route = routes[bus.routeIndex];
-                    const status = getStatus(bus);
-                    const currentPos = bus.marker.getLatLng();
-                    infoHTML += `<div class="bus-info"><h4>${bus.id} <span style="color:${route.color};">(${route.name})</span></h4><p>Status: <span style="color: ${status.color}">${status.text}</span></p><p>Passengers: ${bus.passengers} / ${bus.capacity}</p></div>`;
-                });
-                fleetStatusPanel.innerHTML = infoHTML;
-            }
-            
-            function updateBus(bus) {
-                const route = routes[bus.routeIndex];
-                if (bus.isDwelling) {
-                    bus.dwellTime--;
-                    if (bus.dwellTime <= 0) bus.isDwelling = false;
-                    return;
-                }
-
-                bus.progress += bus.speed;
-
-                if (bus.progress >= 1) {
-                    bus.progress = 0;
-                    bus.segment++;
-                    if (bus.segment >= route.path.length - 1) {
-                        bus.segment = (route.name === "Salt Lake Loop") ? 0 : route.path.length - 2;
-                        bus.progress = (route.name === "Salt Lake Loop") ? 0 : 1;
-                    }
-                    bus.isDwelling = true;
-                    bus.dwellTime = 50;
-                    bus.passengers = Math.max(0, Math.min(bus.capacity, bus.passengers + Math.floor(Math.random() * 10) - 5));
-                }
-
-                const startPoint = L.latLng(route.path[bus.segment]);
-                const endPoint = L.latLng(route.path[bus.segment + 1] || route.path[bus.segment]);
-                const newLat = startPoint.lat + (endPoint.lat - startPoint.lat) * bus.progress;
-                const newLng = startPoint.lng + (endPoint.lng - startPoint.lng) * bus.progress;
-                bus.marker.setLatLng([newLat, newLng]);
-
-                const bearing = calculateBearing(startPoint.lat, startPoint.lng, endPoint.lat, endPoint.lng);
-                bus.bearing = bearing;
-                const iconElement = bus.marker._icon.querySelector('svg');
-                if (iconElement) iconElement.style.transform = `rotate(${bus.bearing}deg)`;
-
-                const status = getStatus(bus);
-                const popupContent = `<h4>${bus.id} (${route.name})</h4><p>Status: <b style="color:${status.color}">${status.text}</b></p><p>Passengers: ${bus.passengers} / ${bus.capacity}</p>`;
-                bus.marker.getPopup().setContent(popupContent);
-            }
-
-            function gameLoop() {
-                buses.forEach(updateBus);
-                updateInfoPanel();
-            }
-
-            // --- Geolocation Logic ---
+            // Geolocation Logic
             locateBtn.addEventListener('click', () => {
                 navigator.geolocation.getCurrentPosition(position => {
                     const { latitude, longitude } = position.coords;
-                    userLatLng = { lat: latitude, lng: longitude };
-                    map.setView([latitude, longitude], 15);
+                    map.flyTo([latitude, longitude], 15);
                     const userIcon = L.divIcon({
                         className: 'user-location-marker',
-                        html: `<svg viewBox="0 0 24 24" fill="${'var(--secondary-color)'}" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="6"/><circle class="pulse" cx="12" cy="12" r="8" fill="none"/></svg>`,
+                        html: `<svg viewBox="0 0 24 24" fill="#0078FF" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="7" stroke="#FFFFFF" stroke-width="2"/><circle class="pulse" cx="12" cy="12" r="8" fill="none"/></svg>`,
                         iconSize: [24, 24]
                     });
                     if (userMarker) {
@@ -984,122 +835,7 @@
             });
 
             createElements();
-            setInterval(gameLoop, 100);
-
-            // --- Gemini AI Integration ---
-            const planRouteBtn = document.getElementById('plan-route-btn');
-            const summarizeBtn = document.getElementById('summarize-btn');
-            const destinationInput = document.getElementById('destination-input');
-            const aiModal = document.getElementById('ai-modal');
-            const aiModalTitle = document.getElementById('ai-modal-title');
-            const aiResponseContainer = document.getElementById('ai-response-container');
-            const aiResponseContent = document.getElementById('ai-response-content');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-
-            const apiKey = ""; // Canvas will provide this
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            function showModal(title) {
-                aiModalTitle.textContent = title;
-                aiResponseContent.innerHTML = '';
-                aiResponseContainer.innerHTML = '<div class="modal-spinner"><div class="spinner"></div></div>';
-                aiModal.classList.add('show');
-            }
-
-            function closeModal() {
-                aiModal.classList.remove('show');
-            }
-            
-            closeModalBtn.addEventListener('click', closeModal);
-            aiModal.addEventListener('click', (e) => {
-                if(e.target === aiModal) closeModal();
-            });
-
-            async function callGeminiAPI(prompt, button) {
-                const originalContent = button.innerHTML;
-                button.innerHTML = '<div class="spinner"></div>';
-                button.disabled = true;
-
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                };
-
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`API Error: ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                    
-                    if (text) {
-                        aiResponseContainer.innerHTML = ''; // Clear spinner
-                        aiResponseContent.textContent = text;
-                    } else {
-                         throw new Error("No content received from API.");
-                    }
-
-                } catch (error) {
-                    aiResponseContainer.innerHTML = '';
-                    aiResponseContent.textContent = `Error: Could not get a response from the AI. ${error.message}`;
-                    console.error("Gemini API call failed:", error);
-                } finally {
-                    button.innerHTML = originalContent;
-                    button.disabled = false;
-                }
-            }
-            
-            planRouteBtn.addEventListener('click', () => {
-                const destination = destinationInput.value.trim();
-                if (!destination) {
-                    showNotification("Please enter a destination.");
-                    return;
-                }
-                if (!userLatLng) {
-                    showNotification("Please find your location on the map first.");
-                    return;
-                }
-                
-                showModal("AI Route Plan");
-
-                let busDataString = buses.map(bus => {
-                    const route = routes[bus.routeIndex];
-                    const status = getStatus(bus);
-                    return `- Bus ${bus.id} (${route.name}): Status: ${status.text}, Passengers: ${bus.passengers}/${bus.capacity}.`;
-                }).join('\n');
-
-                const prompt = `You are a smart public transport assistant for Kolkata. A user is currently at latitude ${userLatLng.lat} and longitude ${userLatLng.lng} and wants to go to "${destination}".
-Based on the following real-time bus data, provide the best route recommendation in a concise, step-by-step format. Prioritize the fastest route, but consider bus crowdedness.
-Current Bus Status:
-${busDataString}
-Be helpful and clear. If no direct route is obvious, suggest the nearest bus stop to start from.`;
-
-                callGeminiAPI(prompt, planRouteBtn);
-            });
-            
-            summarizeBtn.addEventListener('click', () => {
-                showModal("AI Fleet Summary");
-                
-                 let busDataString = buses.map(bus => {
-                    const route = routes[bus.routeIndex];
-                    const status = getStatus(bus);
-                    return `- Bus ${bus.id}: On route '${route.name}', Status: ${status.text}, Passengers: ${bus.passengers}/${bus.capacity}.`;
-                }).join('\n');
-
-                const prompt = `You are a transport fleet operations analyst. Based on the following real-time data for a small bus fleet in Kolkata, provide a concise, bulleted summary of the current situation. Highlight any potential issues like overcrowding, or buses that are dwelling at a stop.
-Current Fleet Data:
-${busDataString}
-`;
-                callGeminiAPI(prompt, summarizeBtn);
-            });
         });
     </script>
 </body>
 </html>
-
