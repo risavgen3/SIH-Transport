@@ -80,13 +80,18 @@
             padding: 0;
         }
 
-        .nav-links a {
+        .nav-links a, .nav-links button {
             color: var(--text-color);
             text-decoration: none;
             transition: color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1rem;
+            cursor: pointer;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links button:hover {
             color: var(--primary-color);
         }
 
@@ -103,6 +108,83 @@
             background-color: var(--primary-color);
             border-radius: 5px;
             transition: all 0.3s ease-in-out;
+        }
+
+        /* --- Auth Page Styles --- */
+        #auth-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .auth-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 3rem;
+            max-width: 400px;
+            width: 90%;
+        }
+        .auth-box h1 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        .auth-selection button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid var(--primary-color);
+            background-color: transparent;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .auth-selection button:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+        .login-form-container {
+            display: none; /* Initially hidden */
+        }
+        .login-form-container.active {
+            display: block;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .login-form button:hover {
+            opacity: 0.9;
+        }
+        .form-toggle, .form-back {
+            margin-top: 1rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         /* --- Simulation Styles --- */
@@ -374,7 +456,7 @@
             left: 50%;
             transform: translateX(-50%);
             background-color: var(--card-bg);
-            color: #ff6347; /* Error color */
+            color: #ff6347;
             padding: 1rem 2rem;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -426,264 +508,420 @@
 <body>
     <canvas id="matrix-bg"></canvas>
     <div id="notification-toast"></div>
-    
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">&lt;Strikers GX /&gt;</a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#problem">Problem</a></li>
-                <li><a href="#solution">Solution</a></li>
-                <li><a href="#simulation">Simulation</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#team">Team</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+
+    <!-- Auth Container -->
+    <div id="auth-container">
+        <div class="auth-box">
+            <div id="auth-selection" class="auth-selection">
+                <h1>Welcome to SmartTrack</h1>
+                <p>Please select your login type.</p>
+                <button id="show-user-login">User Login</button>
+                <button id="show-admin-login">Admin Login</button>
             </div>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Smart Public Transport Tracker</h1>
-                <p>Real-Time Tracking & Management for Emerging Cities // SIH 2025</p>
+            <!-- User Login Form -->
+            <div id="user-login-container" class="login-form-container">
+                <h2 id="user-form-title">User Login</h2>
+                <form id="user-login-form" class="login-form">
+                    <input type="email" id="user-email" placeholder="Email" required>
+                    <input type="password" id="user-password" placeholder="Password" required>
+                    <button type="submit" id="user-submit-btn">Login</button>
+                </form>
+                <p class="form-toggle" id="user-toggle-mode">Don't have an account? Sign Up</p>
+                <p class="form-back" data-target="auth-selection">← Back to selection</p>
             </div>
-        </section>
 
-        <!-- Problem Section -->
-        <section id="problem" class="section">
-            <div class="container">
-                <h2 class="section-title">The Problem</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h3>
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            Unpredictable Wait Times
-                        </h3>
-                        <p>Passengers in tier-2 and tier-3 cities face long, frustrating, and uncertain waits for public transport, disrupting their daily schedules.</p>
-                    </div>
-                    <div class="card">
-                        <h3>
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                            Overcrowding & Safety
-                        </h3>
-                        <p>Inefficient vehicle distribution leads to severe overcrowding, posing safety risks and creating an uncomfortable travel experience for commuters.</p>
-                    </div>
-                    <div class="card">
-                         <h3>
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
-                            Fuel Wastage & Pollution
-                         </h3>
-                        <p>Non-optimized routes, traffic congestion, and excessive idling result in significant fuel waste and contribute to urban air pollution.</p>
-                    </div>
-                </div>
+            <!-- Admin Login Form -->
+            <div id="admin-login-container" class="login-form-container">
+                <h2 id="admin-form-title">Admin Login</h2>
+                <form id="admin-login-form" class="login-form">
+                    <input type="email" id="admin-email" placeholder="Admin Email" required>
+                    <input type="password" id="admin-password" placeholder="Admin Password" required>
+                    <button type="submit" id="admin-submit-btn">Login</button>
+                </form>
+                 <p class="form-toggle" id="admin-toggle-mode">Don't have an account? Sign Up</p>
+                <p class="form-back" data-target="auth-selection">← Back to selection</p>
             </div>
-        </section>
-        
-        <!-- Solution Section -->
-        <section id="solution" class="section">
-            <div class="container">
-                <h2 class="section-title">Our Solution</h2>
-                <div class="grid">
-                     <div class="card">
-                        <h3>
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                            Low-Cost IoT Kit
-                        </h3>
-                        <p>A plug-and-play hardware module (ESP32, GPS, GSM) installed on buses to transmit live location data, designed to work reliably even in low-bandwidth areas.</p>
-                    </div>
-                    <div class="card">
-                         <h3>
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                            Real-Time Passenger Counting
-                         </h3>
-                        <p>An innovative ESP32-CAM integration provides live passenger density data, allowing for proactive crowd management and better vehicle deployment.</p>
-                    </div>
-                    <div class="card">
-                        <h3>
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-3.4-4-6.2-4.3-.5-.1-1-.1-1.4.1l-1.9.4-4.2-4.2c-1-1-2.6-1-3.5 0l-.8.8c-1 1-1 2.6 0 3.5L8.4 15c.1.1.2.2.4.2l1.9-.4c.5-.1.9-.1 1.4-.1 2.8.3 5.6 1.9 6.2 4.3.3 1.4 0 2.7-.7 3.9l-1.8 2.5.8.8c1 1 2.6 1 3.5 0l4.2-4.2.8-.8c1-1 .9-2.6 0-3.5l-2.5-1.8z"></path><path d="m3.5 14.5.8.8c1 1 2.6 1 3.5 0l4.2-4.2.8-.8c1-1 .9-2.6 0-3.5l-2.5-1.8a2.5 2.5 0 0 0-3.5 0l-.8.8-4.2 4.2a2.5 2.5 0 0 0 0 3.5l1.8 2.5Z"></path></svg>
-                            User & Admin Apps
-                        </h3>
-                        <p>A lightweight commuter app for real-time tracking and a powerful web dashboard for authorities to monitor the fleet and optimize routes with data-driven insights.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Simulation Section -->
-        <section id="simulation" class="section">
-            <div class="container">
-                <h2 class="section-title">Live Tracking Simulation (Kolkata)</h2>
-                <div class="simulation-container">
-                    <div id="map-container">
-                        <div id="map"></div>
-                        <button id="locate-btn">Locate Me</button>
-                    </div>
-                    <div class="info-panel" id="infoPanel">
-                       <h3>Fleet Status</h3>
-                       <div id="info-panel-content">
-                           <!-- Bus info will be dynamically inserted here -->
-                       </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Architecture Section -->
-        <section id="architecture" class="section">
-            <div class="container">
-                <h2 class="section-title">System Architecture</h2>
-                <!-- Embedded SVG Diagram -->
-                <svg width="100%" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg" style="background-color: #161b22; border: 1px solid #30363d; font-family: 'Source Code Pro', monospace; border-radius: 8px;">
-                    <defs>
-                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#00c3ff"/>
-                        </marker>
-                    </defs>
-
-                    <!-- Titles -->
-                    <text x="175" y="40" font-size="22" fill="#00ff99" text-anchor="middle">On-Bus IoT System</text>
-                    <text x="600" y="40" font-size="22" fill="#00ff99" text-anchor="middle">Cloud Platform</text>
-                    <text x="1025" y="40" font-size="22" fill="#00ff99" text-anchor="middle">End-User Applications</text>
-
-                    <!-- Column 1: IoT System -->
-                    <rect x="50" y="70" width="250" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                    
-                    <!-- IoT Components -->
-                    <rect x="70" y="90" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="175" y="120" font-size="16" fill="white" text-anchor="middle">ESP32 Microcontroller</text>
-                    <text x="175" y="145" font-size="12" fill="#c9d1d9" text-anchor="middle">(Central Processor)</text>
-                    
-                    <rect x="70" y="190" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="175" y="220" font-size="16" fill="white" text-anchor="middle">Neo-06 Module</text>
-                    <text x="175" y="245" font-size="12" fill="#c9d1d9" text-anchor="middle">(Location Tracking)</text>
-
-                    <rect x="70" y="290" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="175" y="320" font-size="16" fill="white" text-anchor="middle">GSM/GPRS Module</text>
-                    <text x="175" y="345" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Transmission)</text>
-
-                    <rect x="70" y="390" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="175" y="420" font-size="16" fill="white" text-anchor="middle">ESP32-CAM</text>
-                    <text x="175" y="445" font-size="12" fill="#c9d1d9" text-anchor="middle">(Passenger Density)</text>
-
-                    <text x="175" y="540" font-size="18" fill="white" text-anchor="middle">Bus Hardware Unit</text>
-
-                    <!-- Column 2: Cloud -->
-                    <rect x="425" y="70" width="350" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                    <rect x="450" y="90" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="120" font-size="16" fill="white" text-anchor="middle">MQTT Broker</text>
-                    <text x="600" y="145" font-size="12" fill="#c9d1d9" text-anchor="middle">(Real-time Data Ingestion)</text>
-
-                    <rect x="450" y="190" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="220" font-size="16" fill="white" text-anchor="middle">Backend Server (Node.js)</text>
-                    <text x="600" y="245" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Processing & Logic)</text>
-
-                    <rect x="450" y="290" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="320" font-size="16" fill="white" text-anchor="middle">API Layer (REST)</text>
-                    <text x="600" y="345" font-size="12" fill="#c9d1d9" text-anchor="middle">(Secure Data Access)</text>
-
-                    <rect x="450" y="390" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="600" y="420" font-size="16" fill="white" text-anchor="middle">Database (MongoDB)</text>
-                    <text x="600" y="445" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Storage & Retrieval)</text>
-
-                    <!-- Column 3: Apps -->
-                    <rect x="850" y="70" width="250" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
-                    <rect x="875" y="90" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="975" y="130" font-size="16" fill="white" text-anchor="middle">Commuter App</text>
-                    <text x="975" y="155" font-size="12" fill="#c9d1d9" text-anchor="middle">(React Native)</text>
-                    
-                    <rect x="875" y="240" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="975" y="280" font-size="16" fill="white" text-anchor="middle">Admin Dashboard</text>
-                    <text x="975" y="305" font-size="12" fill="#c9d1d9" text-anchor="middle">(Next.js)</text>
-                    
-                    <rect x="875" y="390" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
-                    <text x="975" y="430" font-size="16" fill="white" text-anchor="middle">Driver App</text>
-                    <text x="975" y="455" font-size="12" fill="#c9d1d9" text-anchor="middle">(Mobile)</text>
-                    
-                    <!-- Arrows -->
-                    <line x1="310" y1="320" x2="415" y2="320" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                    <text x="362.5" y="310" font-size="12" fill="#00c3ff" text-anchor="middle">Encrypted Sensor Data</text>
-                    <text x="362.5" y="325" font-size="12" fill="#00c3ff" text-anchor="middle">(via MQTT)</text>
-
-                    <line x1="785" y1="320" x2="840" y2="320" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
-                    <text x="812.5" y="310" font-size="12" fill="#00c3ff" text-anchor="middle">Secure Data Retrieval</text>
-                    <text x="812.5" y="325" font-size="12" fill="#00c3ff" text-anchor="middle">(via REST API)</text>
-                </svg>
-            </div>
-        </section>
-
-        <!-- Team Section -->
-        <section id="team" class="section">
-            <div class="container">
-                <h2 class="section-title">The Team: Strikers GX</h2>
-                 <div class="team-grid">
-                    <div class="team-member">
-                        <img src="https://placehold.co/120x120/00ff99/0d1117?text=SP" alt="Shubham Panjiyara">
-                        <h4>Shubham Panjiyara</h4>
-                        <p>Team Member</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://placehold.co/120x120/00ff99/0d1117?text=RC" alt="Risav Chanda">
-                        <h4>Risav Chanda</h4>
-                        <p>Team Member</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://placehold.co/120x120/00ff99/0d1117?text=HK" alt="Hrishik Kundu">
-                        <h4>Hrishik Kundu</h4>
-                        <p>Team Member</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://placehold.co/120x120/00ff99/0d1117?text=SS" alt="Suraj Shaw">
-                        <h4>Suraj Shaw</h4>
-                        <p>Team Member</p>
-                    </div>
-                    <div class="team-member">
-                        <img src="https://placehold.co/120x120/00ff99/0d1117?text=AD" alt="Arpan Debnath">
-                        <h4>Arpan Debnath</h4>
-                        <p>Team Member</p>
-                    </div>
-                     <div class="team-member">
-                        <img src="https://placehold.co/120x120/00ff99/0d1117?text=SG" alt="Srijata Goswami">
-                        <h4>Srijata Goswami</h4>
-                        <p>Team Member</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Strikers GX. Built for the Smart India Hackathon.</p>
         </div>
-    </footer>
+    </div>
+    
+    <!-- Main App Container -->
+    <div id="app-container" class="hidden">
+        <header>
+            <nav class="container">
+                <a href="#" class="logo">&lt;Strikers GX /&gt;</a>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#problem">Problem</a></li>
+                    <li><a href="#solution">Solution</a></li>
+                    <li><a href="#simulation">Simulation</a></li>
+                    <li><a href="#architecture">Architecture</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><button id="sign-out-btn" class="hidden">Sign Out</button></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <h1>Smart Public Transport Tracker</h1>
+                    <p>Real-Time Tracking & Management for Emerging Cities // SIH 2025</p>
+                </div>
+            </section>
+
+            <!-- Problem Section -->
+            <section id="problem" class="section">
+                <div class="container">
+                    <h2 class="section-title">The Problem</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                Unpredictable Wait Times
+                            </h3>
+                            <p>Passengers in tier-2 and tier-3 cities face long, frustrating, and uncertain waits for public transport, disrupting their daily schedules.</p>
+                        </div>
+                        <div class="card">
+                            <h3>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                Overcrowding & Safety
+                            </h3>
+                            <p>Inefficient vehicle distribution leads to severe overcrowding, posing safety risks and creating an uncomfortable travel experience for commuters.</p>
+                        </div>
+                        <div class="card">
+                            <h3>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                                Fuel Wastage & Pollution
+                            </h3>
+                            <p>Non-optimized routes, traffic congestion, and excessive idling result in significant fuel waste and contribute to urban air pollution.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Solution Section -->
+            <section id="solution" class="section">
+                <div class="container">
+                    <h2 class="section-title">Our Solution</h2>
+                    <div class="grid">
+                        <div class="card">
+                            <h3>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                                Low-Cost IoT Kit
+                            </h3>
+                            <p>A plug-and-play hardware module (ESP32, GPS, GSM) installed on buses to transmit live location data, designed to work reliably even in low-bandwidth areas.</p>
+                        </div>
+                        <div class="card">
+                            <h3>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Real-Time Passenger Counting
+                            </h3>
+                            <p>An innovative ESP32-CAM integration provides live passenger density data, allowing for proactive crowd management and better vehicle deployment.</p>
+                        </div>
+                        <div class="card">
+                            <h3>
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-3.4-4-6.2-4.3-.5-.1-1-.1-1.4.1l-1.9.4-4.2-4.2c-1-1-2.6-1-3.5 0l-.8.8c-1 1-1 2.6 0 3.5L8.4 15c.1.1.2.2.4.2l1.9-.4c.5-.1.9-.1 1.4-.1 2.8.3 5.6 1.9 6.2 4.3.3 1.4 0 2.7-.7 3.9l-1.8 2.5.8.8c1 1 2.6 1 3.5 0l4.2-4.2.8-.8c1-1 .9-2.6 0-3.5l-2.5-1.8z"></path><path d="m3.5 14.5.8.8c1 1 2.6 1 3.5 0l4.2-4.2.8-.8c1-1 .9-2.6 0-3.5l-2.5-1.8a2.5 2.5 0 0 0-3.5 0l-.8.8-4.2 4.2a2.5 2.5 0 0 0 0 3.5l1.8 2.5Z"></path></svg>
+                                User & Admin Apps
+                            </h3>
+                            <p>A lightweight commuter app for real-time tracking and a powerful web dashboard for authorities to monitor the fleet and optimize routes with data-driven insights.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulation Section -->
+            <section id="simulation" class="section">
+                <div class="container">
+                    <h2 class="section-title">Live Tracking Simulation (Kolkata)</h2>
+                    <div class="simulation-container">
+                        <div id="map-container">
+                            <div id="map"></div>
+                            <button id="locate-btn">Locate Me</button>
+                        </div>
+                        <div class="info-panel" id="infoPanel">
+                        <h3>Fleet Status</h3>
+                        <div id="info-panel-content">
+                            <!-- Bus info will be dynamically inserted here -->
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Architecture Section -->
+            <section id="architecture" class="section">
+                <div class="container">
+                    <h2 class="section-title">System Architecture</h2>
+                    <svg width="100%" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg" style="background-color: #161b22; border: 1px solid #30363d; font-family: 'Source Code Pro', monospace; border-radius: 8px;">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#00c3ff"/>
+                            </marker>
+                        </defs>
+                        <text x="175" y="40" font-size="22" fill="#00ff99" text-anchor="middle">On-Bus IoT System</text>
+                        <text x="600" y="40" font-size="22" fill="#00ff99" text-anchor="middle">Cloud Platform</text>
+                        <text x="1025" y="40" font-size="22" fill="#00ff99" text-anchor="middle">End-User Applications</text>
+                        <rect x="50" y="70" width="250" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
+                        <rect x="70" y="90" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="175" y="120" font-size="16" fill="white" text-anchor="middle">ESP32 Microcontroller</text>
+                        <text x="175" y="145" font-size="12" fill="#c9d1d9" text-anchor="middle">(Central Processor)</text>
+                        <rect x="70" y="200" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="175" y="230" font-size="16" fill="white" text-anchor="middle">Neo-06 Module</text>
+                        <text x="175" y="255" font-size="12" fill="#c9d1d9" text-anchor="middle">(Location Tracking)</text>
+                        <rect x="70" y="310" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="175" y="340" font-size="16" fill="white" text-anchor="middle">GSM/GPRS Module</text>
+                        <text x="175" y="365" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Transmission)</text>
+                        <rect x="70" y="420" width="210" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="175" y="450" font-size="16" fill="white" text-anchor="middle">ESP32-CAM</text>
+                        <text x="175" y="475" font-size="12" fill="#c9d1d9" text-anchor="middle">(Passenger Density)</text>
+                        <text x="175" y="540" font-size="18" fill="white" text-anchor="middle">Bus Hardware Unit</text>
+                        
+                        <!-- Internal IoT Arrows -->
+                        <line x1="175" y1="170" x2="175" y2="200" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <line x1="175" y1="280" x2="175" y2="310" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <line x1="175" y1="390" x2="175" y2="420" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                        <rect x="425" y="70" width="350" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
+                        <rect x="450" y="90" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="600" y="120" font-size="16" fill="white" text-anchor="middle">MQTT Broker</text>
+                        <text x="600" y="145" font-size="12" fill="#c9d1d9" text-anchor="middle">(Real-time Data Ingestion)</text>
+                        <rect x="450" y="200" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="600" y="230" font-size="16" fill="white" text-anchor="middle">Backend Server (Node.js)</text>
+                        <text x="600" y="255" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Processing & Logic)</text>
+                        <rect x="450" y="310" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="600" y="340" font-size="16" fill="white" text-anchor="middle">API Layer (REST)</text>
+                        <text x="600" y="365" font-size="12" fill="#c9d1d9" text-anchor="middle">(Secure Data Access)</text>
+                        <rect x="450" y="420" width="300" height="80" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="600" y="450" font-size="16" fill="white" text-anchor="middle">Database (MongoDB)</text>
+                        <text x="600" y="475" font-size="12" fill="#c9d1d9" text-anchor="middle">(Data Storage & Retrieval)</text>
+                        
+                        <!-- Internal Cloud Arrows -->
+                        <line x1="600" y1="170" x2="600" y2="200" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <line x1="600" y1="280" x2="600" y2="310" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <line x1="600" y1="390" x2="600" y2="420" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        
+                        <rect x="850" y="70" width="250" height="500" rx="8" stroke="#30363d" stroke-width="2" fill="#0d1117"/>
+                        <rect x="875" y="90" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="975" y="130" font-size="16" fill="white" text-anchor="middle">Commuter App</text>
+                        <text x="975" y="155" font-size="12" fill="#c9d1d9" text-anchor="middle">(React Native)</text>
+                        <rect x="875" y="240" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="975" y="280" font-size="16" fill="white" text-anchor="middle">Admin Dashboard</text>
+                        <text x="975" y="305" font-size="12" fill="#c9d1d9" text-anchor="middle">(Next.js)</text>
+                        <rect x="875" y="390" width="200" height="120" rx="4" stroke="#30363d" fill="#161b22"/>
+                        <text x="975" y="430" font-size="16" fill="white" text-anchor="middle">Driver App</text>
+                        <text x="975" y="455" font-size="12" fill="#c9d1d9" text-anchor="middle">(Mobile)</text>
+                        
+                        <!-- Main Arrows -->
+                        <line x1="300" y1="350" x2="425" y2="350" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <text x="362.5" y="335" font-size="12" fill="#00c3ff" text-anchor="middle">Encrypted Sensor Data (MQTT)</text>
+
+                        <line x1="775" y1="300" x2="850" y2="300" stroke="#00c3ff" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <text x="812.5" y="285" font-size="12" fill="#00c3ff" text-anchor="middle">Secure Data (REST API)</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section id="team" class="section">
+                <div class="container">
+                    <h2 class="section-title">The Team: Strikers GX</h2>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <img src="https://placehold.co/120x120/00ff99/0d1117?text=SP" alt="Shubham Panjiyara">
+                            <h4>Shubham Panjiyara</h4>
+                            <p>Team Member</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://placehold.co/120x120/00ff99/0d1117?text=RC" alt="Risav Chanda">
+                            <h4>Risav Chanda</h4>
+                            <p>Team Member</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://placehold.co/120x120/00ff99/0d1117?text=HK" alt="Hrishik Kundu">
+                            <h4>Hrishik Kundu</h4>
+                            <p>Team Member</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://placehold.co/120x120/00ff99/0d1117?text=SS" alt="Suraj Shaw">
+                            <h4>Suraj Shaw</h4>
+                            <p>Team Member</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://placehold.co/120x120/00ff99/0d1117?text=AD" alt="Arpan Debnath">
+                            <h4>Arpan Debnath</h4>
+                            <p>Team Member</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="https://placehold.co/120x120/00ff99/0d1117?text=SG" alt="Srijata Goswami">
+                            <h4>Srijata Goswami</h4>
+                            <p>Team Member</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 Strikers GX. Built for the Smart India Hackathon.</p>
+            </div>
+        </footer>
+    </div>
     
     <!-- LeafletJS Map Library -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
+    
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            signInWithEmailAndPassword, 
+            createUserWithEmailAndPassword, 
+            signOut,
+            signInWithCustomToken,
+            signInAnonymously
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // --- Firebase Initialization ---
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "AIza...", authDomain: "...", projectId: "..." };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-            // --- Responsive Nav ---
+        // --- DOM Elements ---
+        const authContainer = document.getElementById('auth-container');
+        const appContainer = document.getElementById('app-container');
+        const showUserLoginBtn = document.getElementById('show-user-login');
+        const showAdminLoginBtn = document.getElementById('show-admin-login');
+        const userLoginContainer = document.getElementById('user-login-container');
+        const adminLoginContainer = document.getElementById('admin-login-container');
+        const authSelection = document.getElementById('auth-selection');
+        const signOutBtn = document.getElementById('sign-out-btn');
+        
+        let map = null; // Holds the map instance
+
+        // --- Auth State Logic ---
+        onAuthStateChanged(auth, user => {
+            if (user && !user.isAnonymous) { // User is properly signed in
+                authContainer.classList.add('hidden');
+                appContainer.classList.remove('hidden');
+                signOutBtn.classList.remove('hidden');
+                initializeMap();
+            } else { // User is signed out or anonymous
+                authContainer.classList.remove('hidden');
+                appContainer.classList.add('hidden');
+                signOutBtn.classList.add('hidden');
+                if (map) {
+                    map.remove();
+                    map = null;
+                }
+            }
+        });
+        
+        // Initial anonymous/custom token sign-in
+        (async () => {
+             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch (error) {
+                    console.error("Custom token sign-in failed, trying anonymous.", error);
+                    await signInAnonymously(auth);
+                }
+            } else {
+                 await signInAnonymously(auth);
+            }
+        })();
+
+
+        // --- UI Switching Logic ---
+        function showForm(formToShow) {
+            authSelection.classList.add('hidden');
+            userLoginContainer.classList.remove('active');
+            adminLoginContainer.classList.remove('active');
+            formToShow.classList.add('active');
+        }
+
+        showUserLoginBtn.addEventListener('click', () => showForm(userLoginContainer));
+        showAdminLoginBtn.addEventListener('click', () => showForm(adminLoginContainer));
+
+        document.querySelectorAll('.form-back').forEach(btn => {
+            btn.addEventListener('click', () => {
+                authSelection.classList.remove('hidden');
+                userLoginContainer.classList.remove('active');
+                adminLoginContainer.classList.remove('active');
+            });
+        });
+
+        function setupForm(formId, titleElId, toggleElId, submitBtnId) {
+            const form = document.getElementById(formId);
+            const title = document.getElementById(titleElId);
+            const toggle = document.getElementById(toggleElId);
+            const submitBtn = document.getElementById(submitBtnId);
+            let isLogin = true;
+
+            toggle.addEventListener('click', () => {
+                isLogin = !isLogin;
+                title.textContent = isLogin ? title.textContent.replace('Sign Up', 'Login') : title.textContent.replace('Login', 'Sign Up');
+                submitBtn.textContent = isLogin ? 'Login' : 'Sign Up';
+                toggle.textContent = isLogin ? "Don't have an account? Sign Up" : "Already have an account? Login";
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = form.querySelector('input[type="email"]').value;
+                const password = form.querySelector('input[type="password"]').value;
+                
+                try {
+                    if (isLogin) {
+                        await signInWithEmailAndPassword(auth, email, password);
+                    } else {
+                        await createUserWithEmailAndPassword(auth, email, password);
+                    }
+                    // onAuthStateChanged will handle the UI transition
+                } catch (error) {
+                    showNotification(error.message);
+                }
+            });
+        }
+
+        setupForm('user-login-form', 'user-form-title', 'user-toggle-mode', 'user-submit-btn');
+        setupForm('admin-login-form', 'admin-form-title', 'admin-toggle-mode', 'admin-submit-btn');
+
+        // --- Sign Out ---
+        signOutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+             // After signing out, sign in anonymously again to allow new logins
+            await signInAnonymously(auth);
+        });
+
+        // --- App Logic (including map) ---
+        function initializeMap() {
+            if (map) { // If a map instance exists, remove it before creating a new one
+                map.remove();
+                map = null;
+            }
+
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.getElementById('nav-links');
             hamburger.addEventListener('click', () => {
                 hamburger.classList.toggle('active');
                 navLinks.classList.toggle('active');
             });
-            document.querySelectorAll('.nav-links a').forEach(link => {
+            document.querySelectorAll('#app-container .nav-links a').forEach(link => {
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                 });
             });
 
-            // --- Matrix Background Effect ---
             const canvas = document.getElementById('matrix-bg');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
@@ -713,23 +951,11 @@
                 canvas.height = window.innerHeight;
             });
 
-            // --- Custom Notification ---
-            const notificationToast = document.getElementById('notification-toast');
-            function showNotification(message) {
-                notificationToast.textContent = message;
-                notificationToast.classList.add('show');
-                setTimeout(() => {
-                    notificationToast.classList.remove('show');
-                }, 3000);
-            }
-
-            /* --- Live Map Simulation Logic --- */
             const infoPanelContent = document.getElementById('info-panel-content');
             const locateBtn = document.getElementById('locate-btn');
             let userMarker = null;
-            let busMarkers = {}; // To store markers by busId
+            let busMarkers = {};
 
-            // --- Real Bus Data from CSV ---
             const csvData = `busId,operator,routeNumber,routeName,busType,capacity,status,latitude,longitude,timestamp,speed,lastStartTime,routesPerDay,fareType
 WB-98-8360,Salt Lake Express,S30,Park Circus ↔ Barasat,Double-Decker,70,Running,22.555418,88.272488,2025-09-04T13:07:06,24.7,2025-09-10T02:43:59,6,AC
 WB-56-3057,Kolkata Tramways,S12,Esplanade ↔ Garia,Non-AC,60,Running,22.671507,88.40027,2025-09-04T19:33:53,56.5,2025-09-06T07:20:25,4,AC
@@ -745,61 +971,31 @@ WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-roa
 
             const busData = csvData.trim().split('\n').slice(1).map(row => {
                 const [busId, operator, routeNumber, routeName, busType, capacity, status, latitude, longitude, timestamp, speed] = row.split(',');
-                return {
-                    id: busId,
-                    operator,
-                    routeNumber,
-                    routeName,
-                    busType,
-                    capacity: parseInt(capacity),
-                    status,
-                    lat: parseFloat(latitude),
-                    lng: parseFloat(longitude),
-                    speed: parseFloat(speed)
-                };
+                return { id: busId, operator, routeNumber, routeName, busType, capacity: parseInt(capacity), status, lat: parseFloat(latitude), lng: parseFloat(longitude), speed: parseFloat(speed) };
             });
 
             const avgLat = busData.reduce((acc, bus) => acc + bus.lat, 0) / busData.length;
             const avgLng = busData.reduce((acc, bus) => acc + bus.lng, 0) / busData.length;
             
-            const map = L.map('map').setView([avgLat, avgLng], 12);
+            map = L.map('map').setView([avgLat, avgLng], 12);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             }).addTo(map);
 
-
             function createElements() {
-                let infoHTML = '';
-
                 busData.forEach(bus => {
                     const busStatusColor = bus.status === 'Running' ? 'var(--primary-color)' : '#ff6347';
                     const busIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${busStatusColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>`;
-                    
-                    const busIcon = L.divIcon({
-                        className: 'bus-marker-icon',
-                        html: busIconSVG,
-                        iconSize: [24, 24],
-                    });
+                    const busIcon = L.divIcon({ className: 'bus-marker-icon', html: busIconSVG, iconSize: [24, 24] });
                     const marker = L.marker([bus.lat, bus.lng], { icon: busIcon }).addTo(map);
-                    
-                    const popupContent = `
-                        <h4>${bus.id} <small>(${bus.operator})</small></h4>
-                        <p><strong>Route:</strong> ${bus.routeName} (${bus.routeNumber})</p>
-                        <p><strong>Status:</strong> ${bus.status}</p>
-                        <p><strong>Speed:</strong> ${bus.speed} km/h</p>
-                    `;
+                    const popupContent = `<h4>${bus.id} <small>(${bus.operator})</small></h4><p><strong>Route:</strong> ${bus.routeName} (${bus.routeNumber})</p><p><strong>Status:</strong> ${bus.status}</p><p><strong>Speed:</strong> ${bus.speed} km/h</p>`;
                     marker.bindPopup(popupContent);
                     busMarkers[bus.id] = marker;
 
                     const busInfoElement = document.createElement('div');
                     busInfoElement.className = 'bus-info';
                     busInfoElement.dataset.busId = bus.id;
-                    busInfoElement.innerHTML = `
-                        <h4>${bus.id} <small>(${bus.routeNumber})</small></h4>
-                        <p>${bus.routeName}</p>
-                        <p>Status: <span style="color: ${busStatusColor}">${bus.status}</span></p>
-                    `;
-                    
+                    busInfoElement.innerHTML = `<h4>${bus.id} <small>(${bus.routeNumber})</small></h4><p>${bus.routeName}</p><p>Status: <span style="color: ${busStatusColor}">${bus.status}</span></p>`;
                     busInfoElement.addEventListener('click', () => {
                         const targetBus = busMarkers[bus.id];
                         if (targetBus) {
@@ -807,21 +1003,15 @@ WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-roa
                             targetBus.openPopup();
                         }
                     });
-
                     infoPanelContent.appendChild(busInfoElement);
                 });
             }
             
-            // Geolocation Logic
             locateBtn.addEventListener('click', () => {
                 navigator.geolocation.getCurrentPosition(position => {
                     const { latitude, longitude } = position.coords;
                     map.flyTo([latitude, longitude], 15);
-                    const userIcon = L.divIcon({
-                        className: 'user-location-marker',
-                        html: `<svg viewBox="0 0 24 24" fill="#0078FF" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="7" stroke="#FFFFFF" stroke-width="2"/><circle class="pulse" cx="12" cy="12" r="8" fill="none"/></svg>`,
-                        iconSize: [24, 24]
-                    });
+                    const userIcon = L.divIcon({ className: 'user-location-marker', html: `<svg viewBox="0 0 24 24" fill="#0078FF" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="7" stroke="#FFFFFF" stroke-width="2"/><circle class="pulse" cx="12" cy="12" r="8" fill="none"/></svg>`, iconSize: [24, 24] });
                     if (userMarker) {
                         userMarker.setLatLng([latitude, longitude]);
                     } else {
@@ -833,9 +1023,20 @@ WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-roa
                     showNotification('Could not get your location. Please enable permissions.');
                 });
             });
-
+            
             createElements();
-        });
+        } 
+
+        // --- Generic Utility ---
+        const notificationToast = document.getElementById('notification-toast');
+        function showNotification(message) {
+            notificationToast.textContent = message;
+            notificationToast.classList.add('show');
+            setTimeout(() => {
+                notificationToast.classList.remove('show');
+            }, 3000);
+        }
     </script>
 </body>
 </html>
+
