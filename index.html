@@ -814,7 +814,8 @@
                 authContainer.classList.add('hidden');
                 appContainer.classList.remove('hidden');
                 signOutBtn.classList.remove('hidden');
-                initializeMap();
+                // Defer map initialization to ensure DOM is ready after class changes
+                setTimeout(initializeMap, 0); 
             } else { // User is signed out or anonymous
                 authContainer.classList.remove('hidden');
                 appContainer.classList.add('hidden');
@@ -904,9 +905,8 @@
 
         // --- App Logic (including map) ---
         function initializeMap() {
-            if (map) { // If a map instance exists, remove it before creating a new one
-                map.remove();
-                map = null;
+            if (map) { 
+                return; // Prevent re-initialization
             }
 
             const hamburger = document.getElementById('hamburger');
@@ -983,6 +983,7 @@ WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-roa
             }).addTo(map);
 
             function createElements() {
+                infoPanelContent.innerHTML = ''; // Clear previous content
                 busData.forEach(bus => {
                     const busStatusColor = bus.status === 'Running' ? 'var(--primary-color)' : '#ff6347';
                     const busIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${busStatusColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>`;
