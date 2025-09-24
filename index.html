@@ -792,7 +792,19 @@
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // --- Firebase Initialization ---
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "AIza...", authDomain: "...", projectId: "..." };
+        // IMPORTANT: PASTE YOUR FIREBASE CONFIG HERE FOR LOCAL TESTING
+        // You can get this from your Firebase project settings:
+        // Project Settings > General > Your apps > Web app > Firebase SDK snippet > Config
+        const localFirebaseConfig = {
+            apiKey: "AIzaSyDvKO9ZNvaQMemY9VgoZNQ5ydda91T1eLs",
+            authDomain: "sihtransport.firebaseapp.com",
+            projectId: "sihtransport",
+            storageBucket: "sihtransport.firebasestorage.app",
+            messagingSenderId: "920187949799",
+            appId: "1:920187949799:web:1c784f05836e042f154842"
+        };
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : localFirebaseConfig;
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
@@ -1040,4 +1052,5 @@ WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-roa
     </script>
 </body>
 </html>
+"
 
