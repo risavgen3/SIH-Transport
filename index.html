@@ -826,6 +826,101 @@ WB-55-9631,South Bengal STC,S30,Park Circus ↔ Barasat,Double-Decker,60,Off-roa
             createElements();
         });
     </script>
+
+    <!-- Add Firebase CDN scripts before your main script tags, just before the closing </body> -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+
+<!-- Add Login/Signup Modal just before </body> -->
+<div id="auth-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(13,17,23,0.9); z-index:3000; align-items:center; justify-content:center;">
+  <div style="background:#161b22; padding:2rem; border-radius:8px; max-width:350px; width:90%; box-shadow:0 0 20px #000;">
+    <h3 style="color:var(--primary-color); text-align:center;">Login / Signup</h3>
+    <input id="auth-email" type="email" placeholder="Email" style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+    <input id="auth-password" type="password" placeholder="Password" style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+    <button id="login-btn" style="width:100%; margin-bottom:0.5rem;">Login</button>
+    <button id="signup-btn" style="width:100%; margin-bottom:0.5rem;">Sign Up</button>
+    <button id="close-auth" style="width:100%; background:#333; color:#fff;">Close</button>
+    <div id="auth-error" style="color:#ff6347; margin-top:1rem; text-align:center;"></div>
+  </div>
+</div>
+<button id="open-auth" style="position:fixed; top:20px; left:20px; z-index:2500; background:var(--primary-color); color:#161b22; border:none; border-radius:4px; padding:0.5rem 1rem; cursor:pointer;">Login</button>
+
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ...existing code...
+
+            // --- Firebase Authentication Setup ---
+            // Replace with your Firebase config from Firebase Console
+            const firebaseConfig = {
+                apiKey: "AIzaSyDvKO9ZNvaQMemY9VgoZNQ5ydda91T1eLs",
+                authDomain: "sihtransport.firebaseapp.com",
+                projectId: "sihtransport",
+                storageBucket: "sihtransport.firebasestorage.app",
+                messagingSenderId: "920187949799",
+                appId: "1:920187949799:web:1c784f05836e042f154842"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+
+            // Auth modal logic
+            const authModal = document.getElementById('auth-modal');
+            const openAuthBtn = document.getElementById('open-auth');
+            const closeAuthBtn = document.getElementById('close-auth');
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const authError = document.getElementById('auth-error');
+
+            openAuthBtn.onclick = () => {
+                if (auth.currentUser) {
+                    // Logout if already logged in
+                    auth.signOut().then(() => {
+                        showNotification('Logged out!');
+                        openAuthBtn.textContent = 'Login';
+                    });
+                } else {
+                    authModal.style.display = 'flex';
+                }
+            };
+            closeAuthBtn.onclick = () => {
+                authModal.style.display = 'none';
+                authError.textContent = '';
+            };
+
+            loginBtn.onclick = () => {
+                const email = document.getElementById('auth-email').value;
+                const password = document.getElementById('auth-password').value;
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        authModal.style.display = 'none';
+                        showNotification('Logged in!');
+                        openAuthBtn.textContent = 'Logout';
+                    })
+                    .catch(e => { authError.textContent = e.message; });
+            };
+
+            signupBtn.onclick = () => {
+                const email = document.getElementById('auth-email').value;
+                const password = document.getElementById('auth-password').value;
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(() => {
+                        authModal.style.display = 'none';
+                        showNotification('Account created!');
+                        openAuthBtn.textContent = 'Logout';
+                    })
+                    .catch(e => { authError.textContent = e.message; });
+            };
+
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    openAuthBtn.textContent = 'Logout';
+                } else {
+                    openAuthBtn.textContent = 'Login';
+                }
+            });
+
+            // ...existing code...
+        });
+</script>
 </body>
 </html>
 
