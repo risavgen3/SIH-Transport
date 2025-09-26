@@ -8,34 +8,6 @@ function App() {
 
   return (
     <>
-      <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strikers GX - SIH Public Transport Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
-    <!-- LeafletJS Map Library -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha26-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-    <style>
-        :root {
-            --primary-color: #00ff99;
-            --secondary-color: #00c3ff;
-            --bg-color: #0d1117;
-            --text-color: #c9d1d9;
-            --border-color: #30363d;
-            --card-bg: #161b22;
-            --font-heading: 'Source Code Pro', monospace;
-            --font-body: 'Poppins', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
 
         body {
             background-color: var(--bg-color);
